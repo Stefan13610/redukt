@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1576789046 source:c:\users\stefan\desktop\redukt\redukt\main.cpp
+	<tchar.h>
+	<windows.h>
+	<commctrl.h>
+	<string>
+	<ctime>
+	"redukt.h"
+	<iostream>
+
+1576788901 c:\users\stefan\desktop\redukt\redukt\redukt.h
+	<vector>
+	<algorithm>
+	<cassert>
+	<fstream>
+	<string>
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+

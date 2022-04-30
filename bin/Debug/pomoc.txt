@@ -1,0 +1,45 @@
+Program stworzony w ramach przedmiotu Sztuczna Inteligencja realizowanego na
+Politechnice Krakowskiej - Wydziale In¿ynierii Elektrycznej i Komputerowej
+Katedra Automatyki i Technik Informacyjnych
+
+Twórcy: Mateusz Serafin
+	
+
+Program wyznacza REDUKT INFORMACYJNY oraz generuje regu³y w tablicach decyzyjnych.
+W programie mamy mo¿liwoœæ wczytania tablicy decyzyjnej z pliku w nastêpuj¹cym formacie
+LW LK
+A11 A12 A13 D1
+A21 A22 A23 D2
+A31 A32 A33 D2
+
+podajemy wymiary macierzy (liczbê wierszy LW potem liczbê kolumn LK (bez wektora D)),
+nastêpnie po spacji wpisujemy kolejne wartosci wierszy tablicy decyzyjnej, ostatni element w wierszu to decyzja. Przejœcia do nowej lini nie sa konieczne, zosta³y dodane jedynie dla czytelnoœci plików.
+
+Istnieje te¿ mo¿liwoœæ wygenerowania takiej macierzy.
+W tym celu w okienkach tekstowych nale¿y podaæ rozmiar macierzy decyzynej, oraz wartoœci maksymalnych elementów macierzy decyzyjnej oraz osobno dla wkeotra D
+
+Do czterech pól tekstowych wartoœci podajemy w nastepuj¹cy sposób:
+
+LW LK
+Z1 Z2
+
+LW-liczba wierszy macierzy decyzyjnej
+LK-liczba kolumn macierzy decyzyjnej (bez wektora D)
+Z1-maksymalny element w tablicy decyzyjnej
+Z2-maksymalny element w wektorze D
+
+Po wygenerowaniu/wczytaniu danych do tablicy decyzyjnej, mamy mo¿liwoœæ wyznaczenia reduktu informacyjnego, dla tej tablicy, za pomoca algorytmu DRMAX_RS.
+
+Ostatni¹ rzecza, któr¹ nale¿y zrobiæ jest wybranie algorytmu, którym wygenerujemy nasze regu³y.
+Wszystkie algorytmy dzia³aj¹ w podobny sposób, sprawdzaj¹ poprawnoœæ tablicy decyzyjnej, dekomponuj¹
+wektor D na macierz d, ka¿dy algorytm generuje podmacierze przekazanej do niego tablicy decyzyjnej i na jej podstawie tworzy regu³y. Ró¿ni¹ siê one jednak:
+
+RULE_GEN1- generuje podmacierze dla ka¿dej kolumny z macierzy d, do momentu wyznaczenia regu³, które pokrywaj¹ wszystkie wartoœci w aktualnie sprawdzanej kolumnie macierzy d.
+
+RULE_GEN2-generuje wszystkie podmacierze o wierszach d³ugoœci k(pocz¹tkowo k=1),Nastepnie generuje wszystkie regu³y dla tak wygenerowanych podmacierzy i wybiera z nich najlepsze. Je¿eli nie uda³o siê znaleœæ regu³ d³ugoœci k do pokrycia wszystkich wartoœci to zwiêkszamy k o 1 i ponawiamy ca³y proces.
+
+RULE_GEN3- jest pdoobny do RULE_GEN1 ale podmacierze generowane s¹ raz dla ca³ej macierzy d a nie jak w RULE_GEN1 dla ka¿dej kolumny.
+
+Wynikiem programu sa wyznaczone regu³y zapisane w nastêpujacym formacie
+
+A[numer kolumny_1]([wartoœæ w kolumnie_1 ]) AND A[numer kolumny_2]([wartoœæ w kolumnie_2 ]) ...--->D([Wartoœæ w wektorze D])

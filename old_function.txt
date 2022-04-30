@@ -1,0 +1,189 @@
+rule ret;
+    rule ret2;
+    ret2.s=0;
+    ret2.R=new rule_2[2*m];// na wszelki wypadek ;/
+	if(!dobrze_okreslona(B,n,m)){
+
+		cout<<"tablica jest zle okreslona"<<endl;
+		return ret;
+		//set some error
+	}
+if(m-1>n){
+    cout<<"liczba kolumn nie moze byc wiêksza od liczby wierszy! urzyj najpierw DRMAX"<<endl;
+    return ret;
+    //set some error
+}
+
+	//dekompozycja macierzy D
+	int max=0;
+
+	for(int i=0;i<n;i++){
+		if(D[i]>max)max=D[i];
+	}
+
+
+	int **d=new int*[n];
+	for(int i=0;i<n;i++)d[i]=new int[max];
+
+
+	for(int i=0;i<n;i++){
+
+		for(int j=0;j<max;j++){
+
+			if(D[i]==j+1)d[i][j]=j+1;
+			else d[i][j]=0;
+
+		}
+
+	}
+
+
+
+	//koniec dekompozycji
+
+
+
+
+
+    std::vector < int > prm;
+   for(int i =0;i<m-1;i++){
+   	prm.push_back(i); //mo¿na daæ i+1 ¿eby indeksowaæ od 1 a nie od 0 ale to wiêcej pierdzielenia siê puŸniej ;/
+   	}
+    	long long int n1;
+
+
+	int ** B1=new int*[n+1];
+	for(int i=0;i<n;i++)B1[i]=new int[m+1];
+	int A_size=0;
+	int p1;
+
+	 /// na ostatniej pozycji zapisze sobie "dlogosc wektora" dlatego +1
+
+	int ** rule_data=new int*[n];
+	for(int i=0;i<n;i++)rule_data[i]=new int[m+1];
+
+    int  *vec_p=new int[m+1]; /// wektor pomocniczy
+	int vec_size=0; ///liczba dodanych regu³ w sumie
+	int vec_ret; ///zmienna pomocnicza dla zwracanych wartosci funkcji
+    //bool dodaj_wector=false;
+	for(int k=1; k<m;k++){
+	    p1=Newton(n,k);
+	    if(p1>A_size)A_size=p1;
+	}
+
+	int ** A=new int*[A_size+1];
+	for(int i=0;i<A_size;i++)A[i]=new int[m];
+     n1=prm.size();
+    int n2=prm.size();
+	ret.R=new rule_2[1000];
+	ret.s=0;
+	rule_2 r2;
+	bool p2=true;
+	for(int j=0; j<max ; j++){ // index kolumny macierzy d
+	for(int k=1; k<m;k++){
+
+	 n1=Newton(n2,k);
+	 permutacje(prm, k,n1,A);
+
+		for(int i=0;i<n1;i++){
+		gen_B2(B1,B, n,m,ret_row(A,k,i),k);// okej to jest troszkê pojebane xD i pamiêciorzerne jak djabli (do optymalizacji jak fiks)
+
+
+				for(int l=0;l<n;l++){
+
+				if(d[l][j]!=0 ){
+
+			if(check_rule(B1,n,k,j,l,d)){
+
+
+
+							r2.D=j;
+							r2.s=k;
+						for(int x=0;x<k;x++){
+
+							r2.R[x].index=A[i][x];
+							r2.R[x].value=B[j][A[i][x]];
+
+
+						}
+
+					if(!sprawdz_reguly(ret,r2)){//sprawdzam czy regula jest juz w tablicy, jesli nie to ja dodaje
+
+					    testuj_regule(B,n,m,r2,vec_p);///sprawdzam jakie wartoœci pokrywa regu³a
+
+                        vec_ret=sprawdz_vektor(d,n,j,rule_data,vec_size,vec_p,m);///sprawdzam czy oplaca sie dodac ta regule
+
+                        if(vec_ret!=-2){
+
+                            if(vec_ret==-1){///jeœli regu³a pokrywa niepokryty dodta delement
+
+                            for(int x=0;x<m+1;x++){
+
+                                rule_data[vec_size][x]=vec_p[x];
+                                cout<<rule_data[vec_size][x]<<" ";
+                            }
+                            cout<<endl;
+                                vec_size++;
+
+
+                            ret.R[ret.s].D=j;
+							ret.R[ret.s].s=k;
+						for(int x=0;x<k;x++){
+
+							ret.R[ret.s].R[x].index=A[i][x];
+							ret.R[ret.s].R[x].value=B[j][A[i][x]];
+
+
+						}
+
+						ret.s++;
+
+                            }///end -1
+
+else{///jeœli regu³a jest lepsza od innej reg³y w tablicy
+
+    rule_data[vec_ret]=vec_p;
+                            ret.R[vec_ret].D=j;
+							ret.R[vec_ret].s=k;
+						for(int x=0;x<k;x++){
+
+							ret.R[vec_ret].R[x].index=A[i][x];
+							ret.R[vec_ret].R[x].value=B[j][A[i][x]];
+
+
+						}
+
+
+}///end else
+                        }///end !=-2
+
+
+
+
+					}
+
+
+
+					}
+				}
+				}
+
+
+
+			}
+
+		}
+
+
+
+	}
+
+	for(int i=0;i<n;i++){
+        delete[] d[i];
+        delete[] B1[i];
+	}
+	delete [] d;
+	delete [] B1;
+
+
+	return ret;
